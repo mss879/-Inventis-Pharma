@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Footer() {
   return (
@@ -107,9 +108,30 @@ export default function Footer() {
         </div>
         
         <div className="mt-12 border-t border-brand-orange/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-brand-charcoal-muted text-center">
-            &copy; {new Date().getFullYear()} Inventis Pharma Pvt Ltd. All rights reserved.
-          </p>
+          <div className="flex flex-col md:flex-row items-center gap-4 text-center md:text-left">
+            <p className="text-xs text-brand-charcoal-muted">
+              &copy; {new Date().getFullYear()} Inventis Pharma Pvt Ltd. All rights reserved.
+            </p>
+            <div className="hidden md:block h-4 w-[1px] bg-brand-orange/20" />
+            <a
+              href="https://www.arcai.agency"
+              target="_blank"
+              rel="noopener"
+              title="Arc AI - Professional AI & Software Solutions Agency"
+              className="flex items-center gap-1.5 text-xs text-brand-charcoal-muted hover:text-brand-orange transition-colors group select-none pointer-events-auto"
+            >
+              <span>Built & designed by</span>
+              <span className="relative flex items-center h-6 w-18 transition-all duration-300 opacity-95 group-hover:opacity-100 group-hover:scale-105">
+                <Image
+                  src="/logo-black.png"
+                  alt="Arc AI logo"
+                  fill
+                  sizes="72px"
+                  className="object-contain"
+                />
+              </span>
+            </a>
+          </div>
           <div className="flex gap-6 text-xs text-brand-charcoal-muted">
             <span className="hover:text-brand-orange cursor-pointer transition-colors">Regulatory Compliance</span>
             <span className="hover:text-brand-orange cursor-pointer transition-colors">ITI Certifications</span>
