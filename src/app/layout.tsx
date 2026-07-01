@@ -31,8 +31,11 @@ export const metadata: Metadata = {
     "Medical Sourcing Sri Lanka",
     "Clinical Systems Distributor Colombo"
   ],
-  authors: [{ name: "Inventis Pharma Team" }],
-  creator: "Inventis Pharma Pvt Ltd",
+  authors: [
+    { name: "Inventis Pharma Team" },
+    { name: "ARC AI", url: "https://www.arcai.agency" }
+  ],
+  creator: "ARC AI",
   publisher: "Inventis Pharma Pvt Ltd",
   formatDetection: {
     email: false,
@@ -72,11 +75,44 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "MedicalBusiness",
+    "name": "Inventis Pharma Pvt Ltd",
+    "url": "https://inventispharma.org",
+    "logo": "https://inventispharma.org/inventis_logo.png",
+    "description": "Sri Lanka's leading importer and distributor of clinical biomedical devices, dialysis consumables, rehabilitation aids, and surgical equipment.",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "No. 11/8, Kawdana Road",
+      "addressLocality": "Dehiwala",
+      "addressCountry": "LK"
+    },
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+94-11-273-4567",
+      "contactType": "customer service",
+      "email": "info@inventispharma.lk"
+    },
+    "creator": {
+      "@type": "Organization",
+      "name": "ARC AI",
+      "url": "https://www.arcai.agency",
+      "description": "Premium AI & Software Development Agency"
+    }
+  };
+
   return (
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body className="min-h-full flex flex-col bg-white text-brand-charcoal">
         <Header />
         <main className="flex-1 flex flex-col">

@@ -15,8 +15,15 @@ export default function Footer() {
           {/* Logo / Column 1 */}
           <div className="space-y-6">
             <Link href="/" className="flex items-center gap-2 group w-fit">
-              <div className="h-9 w-9 rounded-xl bg-brand-orange flex items-center justify-center shadow-md shadow-brand-orange/30 group-hover:scale-105 transition-transform duration-300">
-                <span className="font-extrabold text-white text-sm">I</span>
+              <div className="h-9 w-9 rounded-xl overflow-hidden bg-white p-1.5 flex items-center justify-center shadow-md shadow-brand-orange/20 group-hover:scale-105 transition-transform duration-300">
+                <Image
+                  src="/inventis_logo.png"
+                  alt="Inventis Pharma Logo"
+                  width={24}
+                  height={24}
+                  priority
+                  className="object-contain"
+                />
               </div>
               <div className="flex flex-col">
                 <span className="text-base font-bold tracking-tight text-brand-charcoal group-hover:text-brand-orange transition-colors duration-300">
@@ -117,19 +124,22 @@ export default function Footer() {
               href="https://www.arcai.agency"
               target="_blank"
               rel="noopener"
-              title="Arc AI - Professional AI & Software Solutions Agency"
-              className="flex items-center gap-1.5 text-xs text-brand-charcoal-muted hover:text-brand-orange transition-colors group select-none pointer-events-auto"
+              title="ARC AI - Custom AI Solutions & Software Agency"
+              className="flex flex-wrap items-center gap-2 text-xs text-brand-charcoal-muted hover:text-brand-orange transition-colors group select-none pointer-events-auto"
             >
-              <span>Built & designed by</span>
-              <span className="relative flex items-center h-6 w-18 transition-all duration-300 opacity-95 group-hover:opacity-100 group-hover:scale-105">
+              <span>Built & Designed by</span>
+              <span className="relative flex items-center h-4.5 w-14 transition-all duration-300 opacity-80 group-hover:opacity-100 group-hover:scale-105">
                 <Image
                   src="/logo-black.png"
-                  alt="Arc AI logo"
+                  alt="ARC AI - Leading AI & Software Solutions Agency"
                   fill
-                  sizes="72px"
+                  sizes="56px"
                   className="object-contain"
+                  priority
                 />
               </span>
+              <span className="font-bold text-brand-charcoal group-hover:text-brand-orange transition-colors">ARC AI</span>
+              <span className="hidden sm:inline text-brand-charcoal-muted/70">- Premium AI Agency</span>
             </a>
           </div>
           <div className="flex gap-6 text-xs text-brand-charcoal-muted">

@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import gsap from "gsap";
 
@@ -117,8 +118,15 @@ export default function Header() {
         <div className="mx-auto max-w-[1500px] px-6 sm:px-10 md:px-14 lg:px-16 xl:px-20 h-20 flex items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 group">
-            <div className="h-10 w-10 rounded-xl bg-brand-orange flex items-center justify-center shadow-md shadow-brand-orange/30 group-hover:scale-105 transition-transform duration-300">
-              <span className="font-extrabold text-white text-base">I</span>
+            <div className="h-10 w-10 rounded-xl overflow-hidden bg-white p-1.5 flex items-center justify-center shadow-md shadow-brand-orange/20 group-hover:scale-105 transition-transform duration-300">
+              <Image
+                src="/inventis_logo.png"
+                alt="Inventis Pharma Logo"
+                width={28}
+                height={28}
+                priority
+                className="object-contain"
+              />
             </div>
             <div className="flex flex-col">
               <span
@@ -159,7 +167,7 @@ export default function Header() {
             aria-label="Toggle Menu"
           >
             <span
-              className={`text-sm uppercase tracking-widest font-black transition-colors ${
+              className={`hidden sm:inline text-sm uppercase tracking-widest font-black transition-colors ${
                 isOpen
                   ? "text-white group-hover:text-brand-orange"
                   : isScrolled
@@ -198,7 +206,7 @@ export default function Header() {
         {/* Side Panel Drawer */}
         <div
           ref={menuRef}
-          className="absolute top-0 right-0 bottom-0 w-full max-w-xl glass-menu shadow-2xl flex flex-col justify-between p-8 sm:p-12 border-l border-white/10 transform translate-x-full pointer-events-auto"
+          className="absolute top-0 right-0 bottom-0 w-full max-w-xl glass-menu shadow-2xl flex flex-col justify-between p-8 sm:p-12 border-l border-white/10 transform translate-x-full pointer-events-auto overflow-y-auto"
         >
           {/* Decorative background element for menu */}
           <div className="absolute top-[-20%] right-[-20%] w-[400px] h-[400px] rounded-full bg-brand-orange/10 blur-[100px] pointer-events-none" />
