@@ -2,17 +2,22 @@
 
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
+import { BUSINESS } from "@/lib/site";
 
 export default function ContactClient({ initialSubject }: { initialSubject: string }) {
   const containerRef = useRef<HTMLDivElement>(null);
+  // Prefilled once on mount from the ?subject= deep-link (e.g. a product
+  // "Inquire" link); remains editable thereafter.
   const [subject, setSubject] = useState(initialSubject);
+  const [sent, setSent] = useState(false);
 
   useEffect(() => {
-    setSubject(initialSubject);
-  }, [initialSubject]);
-
-  useEffect(() => {
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const ctx = gsap.context(() => {
+      if (reduce) {
+        gsap.set(".fade-in-up", { opacity: 1, y: 0 });
+        return;
+      }
       gsap.fromTo(
         ".fade-in-up",
         { opacity: 0, y: 35 },
@@ -24,8 +29,23 @@ export default function ContactClient({ initialSubject }: { initialSubject: stri
 
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    alert("Thank you for your inquiry. The Inventis team will get in touch with you shortly.");
-    (e.target as HTMLFormElement).reset();
+    const form = e.currentTarget;
+    const data = new FormData(form);
+    const name = String(data.get("name") ?? "");
+    const email = String(data.get("email") ?? "");
+    const subj = String(data.get("subject") ?? "");
+    const message = String(data.get("message") ?? "");
+
+    // No backend required: open the visitor's mail client with a prefilled
+    // message addressed to the Inventis sourcing desk.
+    const body = `Name: ${name}\nEmail: ${email}\n\n${message}`;
+    const mailto = `mailto:${BUSINESS.email}?subject=${encodeURIComponent(
+      subj || "Sourcing Inquiry"
+    )}&body=${encodeURIComponent(body)}`;
+    window.location.href = mailto;
+
+    setSent(true);
+    form.reset();
     setSubject("");
   };
 
@@ -115,6 +135,24 @@ export default function ContactClient({ initialSubject }: { initialSubject: stri
 
             {/* Right Column: Dynamic Form */}
             <div className="lg:col-span-7 bg-brand-gray-light border border-brand-orange/15 rounded-3xl p-8 sm:p-10 shadow-sm fade-in-up">
+              {sent && (
+                <div
+                  role="status"
+                  className="mb-6 flex items-start gap-3 rounded-xl border border-brand-orange/20 bg-brand-orange-light/40 p-4"
+                >
+                  <div className="h-5 w-5 rounded-full bg-brand-orange text-white flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold" aria-hidden="true">
+                    ✓
+                  </div>
+                  <p className="text-sm text-brand-charcoal">
+                    Thank you — your email client should now open with your inquiry ready to send.
+                    Prefer to reach us directly? Email{" "}
+                    <a href={`mailto:${BUSINESS.email}`} className="font-bold text-brand-orange hover:underline">
+                      {BUSINESS.email}
+                    </a>{" "}
+                    or call {BUSINESS.telephoneDisplay}.
+                  </p>
+                </div>
+              )}
               <form onSubmit={handleFormSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <div>

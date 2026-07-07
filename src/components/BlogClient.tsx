@@ -8,7 +8,12 @@ export default function BlogClient() {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const ctx = gsap.context(() => {
+      if (reduce) {
+        gsap.set(".fade-in-up", { opacity: 1, y: 0 });
+        return;
+      }
       gsap.fromTo(
         ".fade-in-up",
         { opacity: 0, y: 35 },
@@ -69,11 +74,12 @@ export default function BlogClient() {
             {/* Image block */}
             <div className="lg:col-span-5 relative h-[300px] rounded-2xl overflow-hidden">
               <Image
-                src="/sri_lanka_distribution_v2.png"
-                alt="Medical distribution van Colombo"
+                src="/sri_lanka_distribution_v2.webp"
+                alt="Medical distribution logistics in Colombo, Sri Lanka"
                 fill
+                sizes="(max-width: 1024px) 100vw, 40vw"
                 className="object-cover"
-                priority
+                loading="lazy"
               />
             </div>
             
@@ -86,7 +92,7 @@ export default function BlogClient() {
               </div>
               
               <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-brand-charcoal hover:text-brand-orange transition-colors cursor-pointer uppercase">
-                Optimizing Sri Lanka's Public Medical Tender Supply Lines
+                Optimizing Sri Lanka&apos;s Public Medical Tender Supply Lines
               </h2>
               
               <p className="text-sm text-brand-charcoal-muted leading-relaxed">

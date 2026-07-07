@@ -8,7 +8,12 @@ export default function AboutClient() {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const ctx = gsap.context(() => {
+      if (reduce) {
+        gsap.set(".fade-in-up", { opacity: 1, y: 0 });
+        return;
+      }
       // Entry animations for lists and containers
       gsap.fromTo(
         ".fade-in-up",
@@ -92,7 +97,7 @@ export default function AboutClient() {
             CORPORATE VALUE STATEMENT
           </h2>
           <blockquote className="text-lg sm:text-xl font-medium italic text-brand-charcoal-muted leading-relaxed">
-            "To be trusted by customers and society at large. To be known as a responsible partner, dedicated to offering superior quality solutions and technology."
+            &ldquo;To be trusted by customers and society at large. To be known as a responsible partner, dedicated to offering superior quality solutions and technology.&rdquo;
           </blockquote>
         </div>
       </section>
@@ -130,11 +135,12 @@ export default function AboutClient() {
 
             <div className="lg:col-span-5 relative h-[300px] sm:h-[350px] rounded-2xl overflow-hidden shadow-lg border border-brand-orange/5 fade-in-up">
               <Image
-                src="/hero_fallback.png"
-                alt="The Inventis Team Workspace"
+                src="/hero_fallback.webp"
+                alt="The Inventis Pharma team at work in a biomedical facility"
                 fill
+                sizes="(max-width: 1024px) 100vw, 40vw"
                 className="object-cover"
-                priority
+                loading="lazy"
               />
             </div>
 

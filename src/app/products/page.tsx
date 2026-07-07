@@ -1,19 +1,43 @@
-import { Metadata } from "next";
+import type { Metadata } from "next";
 import ProductsClient from "@/components/ProductsClient";
+import JsonLd from "@/components/JsonLd";
+import { breadcrumbSchema, webPageSchema } from "@/lib/schema";
+
+const description =
+  "Browse the Inventis Pharma catalog: dialysis consumables, rehabilitation aids, homecare devices, surgical consumables, and the SLS-certified Sterigen sanitizer — sourced from globally certified manufacturers for Sri Lanka.";
 
 export const metadata: Metadata = {
-  title: "Our Products",
-  description: "Explore the medical product portfolio of Inventis Pharma: clinical dialysis consumables, surgical gowns, rehabilitation aids, homecare devices, and SLS-certified Sterigen sanitizer.",
-  keywords: [
-    "Medical Products Sri Lanka",
-    "Surgical Consumables Colombo",
-    "Sterigen Sanitizer SLS",
-    "Hemodialysis concentrates",
-    "Rehabilitation aids",
-    "Homecare Medical Devices"
-  ],
+  title: "Products — Biomedical Devices & Hospital Consumables Catalog",
+  description,
+  alternates: { canonical: "/products" },
+  openGraph: {
+    title: "Medical Products & Biomedical Devices | Inventis Pharma",
+    description,
+    url: "/products",
+    type: "website",
+  },
 };
 
 export default function ProductsPage() {
-  return <ProductsClient />;
+  return (
+    <>
+      <JsonLd
+        id="schema-products-webpage"
+        data={webPageSchema({
+          type: "CollectionPage",
+          path: "/products",
+          name: "Biomedical & Hospital Product Catalog",
+          description,
+        })}
+      />
+      <JsonLd
+        id="schema-products-breadcrumb"
+        data={breadcrumbSchema([
+          { name: "Home", path: "/" },
+          { name: "Products", path: "/products" },
+        ])}
+      />
+      <ProductsClient />
+    </>
+  );
 }

@@ -1,36 +1,65 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Inventis Pharma — inventispharma.org
 
-## Getting Started
+Production website for **Inventis Pharma (Pvt) Ltd**, Sri Lanka's importer and
+distributor of biomedical devices, dialysis consumables, rehabilitation aids,
+homecare apparatus, and surgical equipment.
 
-First, run the development server:
+Built with **Next.js 16** (App Router) · **React 19** · **Tailwind CSS v4** · **GSAP**.
+
+## Getting started
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev      # http://localhost:3000
+npm run build    # production build
+npm run start    # serve the production build
+npm run lint     # eslint (must be clean)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Deployment
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+The app is a standard Next.js server build (SSR + on-demand image
+optimization). Deploy to any Node host or Vercel:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build && npm run start   # or `vercel deploy`
+```
 
-## Learn More
+`/contact` is server-rendered on demand (it reads `?subject=`); every other
+route is statically prerendered. If you deploy behind a CDN/proxy, forward the
+`Accept` header so the image optimizer can negotiate AVIF/WebP.
 
-To learn more about Next.js, take a look at the following resources:
+The canonical origin is set once in [`src/lib/site.ts`](src/lib/site.ts)
+(`SITE_URL`). Update it there if the domain changes — canonical tags, the
+sitemap, robots, Open Graph, and JSON-LD all derive from it.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## SEO
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Per-route canonical URLs and distinct titles/descriptions (no cannibalization).
+  `/contact?subject=…` deep-links canonicalize to `/contact`.
+- Structured data (JSON-LD) in [`src/lib/schema.ts`](src/lib/schema.ts): a single
+  canonical `MedicalBusiness` + `WebSite` graph referenced by per-page
+  `WebPage`/`BreadcrumbList`/`FAQPage` nodes.
+- `app/sitemap.ts`, `app/robots.ts`, `app/manifest.ts` and the
+  `icon.svg` / `apple-icon.tsx` / `opengraph-image.tsx` metadata routes.
 
-## Deploy on Vercel
+## Media & performance
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- All raster images are optimized WebP; the hero ships as compressed
+  `hero_video.mp4` + `hero_video.webm` with a `hero_poster.webp` poster.
+  Re-encode source media with `ffmpeg` / `cwebp` (see git history for commands).
+- On the first visit of each session a [`Preloader`](src/components/Preloader.tsx)
+  pre-downloads the hero poster + video, then reveals the page.
+- Security headers, long-lived asset caching, and the image `qualities` / `formats`
+  allow-list live in [`next.config.ts`](next.config.ts).
+- All motion honors `prefers-reduced-motion`.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Project layout
+
+```
+src/
+  app/            routes, metadata routes (sitemap/robots/manifest/icons)
+  components/     Header, Footer, per-page clients, Preloader, JsonLd
+  lib/            site constants, schema builders, shared content (faqs)
+public/           optimized images + hero video/poster
+```

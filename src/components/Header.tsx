@@ -5,42 +5,36 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import gsap from "gsap";
+import { NAV_ITEMS } from "@/lib/site";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
+  const [scrolledDown, setScrolledDown] = useState(false);
   const pathname = usePathname();
   
   const menuRef = useRef<HTMLDivElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
   const linksRef = useRef<HTMLDivElement>(null);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
   const burgerLine1 = useRef<SVGLineElement>(null);
   const burgerLine2 = useRef<SVGLineElement>(null);
   const burgerLine3 = useRef<SVGLineElement>(null);
   
   const tl = useRef<gsap.core.Timeline | null>(null);
 
-  // Monitor scroll for header background transitions (homepage only)
+  // On the homepage the navbar starts transparent over the hero and turns
+  // solid on scroll; every other route uses the solid style immediately.
   useEffect(() => {
-    if (pathname !== "/") {
-      setIsScrolled(true);
-      return;
-    }
-
-    const handleScroll = () => {
-      if (window.scrollY > 50) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
-    };
-
-    // Run initial scroll check
-    handleScroll();
-    
-    window.addEventListener("scroll", handleScroll);
+    if (pathname !== "/") return;
+    const handleScroll = () => setScrolledDown(window.scrollY > 50);
+    handleScroll(); // sync to current position (e.g. restored scroll)
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, [pathname]);
+
+  // Non-home routes always use the solid navbar; the homepage only turns solid
+  // once the user scrolls off the hero.
+  const isScrolled = pathname !== "/" || scrolledDown;
 
   // Initialize GSAP Timeline for menu open/close
   useEffect(() => {
@@ -92,18 +86,75 @@ export default function Header() {
     }
   }, [isOpen]);
 
-  // Close menu on path change
+  // Lock body scroll while the mobile drawer is open.
   useEffect(() => {
-    setIsOpen(false);
-  }, [pathname]);
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
 
-  const navItems = [
-    { name: "Home", href: "/" },
-    { name: "About", href: "/about" },
-    { name: "Products", href: "/products" },
-    { name: "Blog", href: "/blog" },
-    { name: "Contact", href: "/contact" },
-  ];
+  // Close the drawer with the Escape key.
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setIsOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
+
+  // Dialog focus management: move focus into the open drawer, trap Tab within
+  // it, and return focus to the toggle button on close.
+  useEffect(() => {
+    if (!isOpen) return;
+    const drawer = menuRef.current;
+    if (!drawer) return;
+    const toggleButton = menuButtonRef.current;
+
+    const getFocusable = () =>
+      Array.from(
+        drawer.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled])'
+        )
+      );
+
+    getFocusable()[0]?.focus();
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== "Tab") return;
+      const items = getFocusable();
+      if (items.length === 0) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
+
+    drawer.addEventListener("keydown", onKeyDown);
+    return () => {
+      drawer.removeEventListener("keydown", onKeyDown);
+      toggleButton?.focus();
+    };
+  }, [isOpen]);
+
+  // Close the drawer on browser back/forward (navigations that don't go through
+  // the drawer's own links).
+  useEffect(() => {
+    const onPopState = () => setIsOpen(false);
+    window.addEventListener("popstate", onPopState);
+    return () => window.removeEventListener("popstate", onPopState);
+  }, []);
+
+  const navItems = NAV_ITEMS;
 
   return (
     <>
@@ -117,14 +168,14 @@ export default function Header() {
       >
         <div className="mx-auto max-w-[1500px] px-6 sm:px-10 md:px-14 lg:px-16 xl:px-20 h-20 flex items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 group">
+          <Link href="/" onClick={() => setIsOpen(false)} className="flex items-center gap-2 group">
             <div className="h-10 w-10 rounded-xl overflow-hidden bg-white p-1.5 flex items-center justify-center shadow-md shadow-brand-orange/20 group-hover:scale-105 transition-transform duration-300">
               <Image
-                src="/inventis_logo.png"
-                alt="Inventis Pharma Logo"
+                src="/inventis_logo.webp"
+                alt="Inventis Pharma logo"
                 width={28}
                 height={28}
-                priority
+                preload
                 className="object-contain"
               />
             </div>
@@ -156,15 +207,18 @@ export default function Header() {
 
           {/* Menu Button with scroll-reactive text color */}
           <button
+            ref={menuButtonRef}
             onClick={() => setIsOpen(!isOpen)}
-            className={`group flex items-center gap-4 px-6 py-3 rounded-full transition-all duration-300 focus:outline-none z-50 cursor-pointer ${
+            className={`group flex items-center gap-4 px-6 py-3 rounded-full transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange z-50 cursor-pointer ${
               isOpen
                 ? "text-white hover:text-brand-orange hover:bg-white/10"
                 : isScrolled
                 ? "hover:bg-brand-orange-light text-brand-charcoal hover:text-brand-orange"
                 : "hover:bg-white/10 text-white hover:text-brand-orange"
             }`}
-            aria-label="Toggle Menu"
+            aria-label={isOpen ? "Close menu" : "Open menu"}
+            aria-expanded={isOpen}
+            aria-controls="site-menu"
           >
             <span
               className={`hidden sm:inline text-sm uppercase tracking-widest font-black transition-colors ${
@@ -194,8 +248,9 @@ export default function Header() {
         </div>
       </header>
 
-      {/* Side Menu Overlay Container */}
-      <div className="fixed inset-0 z-40 pointer-events-none">
+      {/* Side Menu Overlay Container. `inert` when closed removes the drawer's
+          links/buttons from both the tab order and the accessibility tree. */}
+      <div className="fixed inset-0 z-40 pointer-events-none" inert={!isOpen}>
         {/* Backdrop overlay */}
         <div
           ref={overlayRef}
@@ -206,6 +261,10 @@ export default function Header() {
         {/* Side Panel Drawer */}
         <div
           ref={menuRef}
+          id="site-menu"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Site navigation"
           className="absolute top-0 right-0 bottom-0 w-full max-w-xl glass-menu shadow-2xl flex flex-col justify-between p-8 sm:p-12 border-l border-white/10 transform translate-x-full pointer-events-auto overflow-y-auto"
         >
           {/* Decorative background element for menu */}
@@ -238,6 +297,8 @@ export default function Header() {
                 <Link
                   key={item.name}
                   href={item.href}
+                  onClick={() => setIsOpen(false)}
+                  aria-current={isActive ? "page" : undefined}
                   className="group flex items-baseline gap-6 text-4xl sm:text-5xl font-extrabold tracking-tight text-white hover:text-brand-orange transition-colors duration-300"
                 >
                   <span className="text-sm font-semibold text-white/30 group-hover:text-brand-orange transition-colors duration-300">

@@ -8,20 +8,20 @@ export default function Footer() {
     <footer className="bg-brand-gray-light border-t border-brand-orange/10 relative overflow-hidden">
       {/* Decorative accent element */}
       <div className="absolute bottom-0 left-0 w-full h-[4px] bg-gradient-to-r from-brand-orange to-brand-orange-dark" />
-      
+
       <div className="mx-auto max-w-7xl px-6 py-12 lg:px-8">
-        <div className="xl:grid xl:grid-cols-3 xl:gap-8">
-          
-          {/* Logo / Column 1 */}
-          <div className="space-y-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 sm:gap-8">
+
+          {/* Brand / Column 1 */}
+          <div className="space-y-5 sm:col-span-2 lg:col-span-1">
             <Link href="/" className="flex items-center gap-2 group w-fit">
               <div className="h-9 w-9 rounded-xl overflow-hidden bg-white p-1.5 flex items-center justify-center shadow-md shadow-brand-orange/20 group-hover:scale-105 transition-transform duration-300">
                 <Image
-                  src="/inventis_logo.png"
-                  alt="Inventis Pharma Logo"
+                  src="/inventis_logo.webp"
+                  alt="Inventis Pharma logo"
                   width={24}
                   height={24}
-                  priority
+                  loading="lazy"
                   className="object-contain"
                 />
               </div>
@@ -38,114 +38,109 @@ export default function Footer() {
               Empowering healthcare and wellness in Sri Lanka with smart, innovative, and reliable biomedical solutions.
             </p>
           </div>
-          
-          {/* Column 2 & 3 */}
-          <div className="mt-8 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">
-            {/* Quick Links */}
-            <div>
-              <h3 className="text-xs font-bold uppercase tracking-wider text-brand-orange">
-                Quick Navigation
-              </h3>
-              <ul role="list" className="mt-4 space-y-3">
-                <li>
-                  <Link href="/" className="text-sm text-brand-charcoal-muted hover:text-brand-orange transition-colors">
-                    Home
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/about" className="text-sm text-brand-charcoal-muted hover:text-brand-orange transition-colors">
-                    About Us
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/products" className="text-sm text-brand-charcoal-muted hover:text-brand-orange transition-colors">
-                    Our Products
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/blog" className="text-sm text-brand-charcoal-muted hover:text-brand-orange transition-colors">
-                    Medical Blog
-                  </Link>
-                </li>
-              </ul>
-            </div>
-            
-            {/* Contact Portal */}
-            <div>
-              <h3 className="text-xs font-bold uppercase tracking-wider text-brand-orange">
-                Corporate Address
-              </h3>
-              <address className="mt-4 not-italic space-y-2 text-sm text-brand-charcoal-muted leading-relaxed">
-                <p className="font-semibold text-brand-charcoal">Inventis Pharma (Pvt) Ltd</p>
-                <p>No. 11/8, Kawdana Road,</p>
-                <p>Dehiwala, Sri Lanka.</p>
-              </address>
-              <div className="mt-6 flex gap-4">
-                <a
-                  href="https://facebook.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-brand-charcoal-muted hover:text-brand-orange transition-colors"
-                  aria-label="Facebook Link"
-                >
-                  Facebook
-                </a>
-                <a
-                  href="https://twitter.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-brand-charcoal-muted hover:text-brand-orange transition-colors"
-                  aria-label="Twitter Link"
-                >
-                  Twitter
-                </a>
-                <a
-                  href="https://instagram.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-brand-charcoal-muted hover:text-brand-orange transition-colors"
-                  aria-label="Instagram Link"
-                >
-                  Instagram
-                </a>
-              </div>
+
+          {/* Quick Navigation */}
+          <div>
+            <h3 className="text-xs font-bold uppercase tracking-wider text-brand-orange">
+              Quick Navigation
+            </h3>
+            <ul role="list" className="mt-4 space-y-3">
+              <li>
+                <Link href="/" className="text-sm text-brand-charcoal-muted hover:text-brand-orange transition-colors">
+                  Home
+                </Link>
+              </li>
+              <li>
+                <Link href="/about" className="text-sm text-brand-charcoal-muted hover:text-brand-orange transition-colors">
+                  About Us
+                </Link>
+              </li>
+              <li>
+                <Link href="/products" className="text-sm text-brand-charcoal-muted hover:text-brand-orange transition-colors">
+                  Our Products
+                </Link>
+              </li>
+              <li>
+                <Link href="/blog" className="text-sm text-brand-charcoal-muted hover:text-brand-orange transition-colors">
+                  Medical Blog
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Corporate Address */}
+          <div>
+            <h3 className="text-xs font-bold uppercase tracking-wider text-brand-orange">
+              Corporate Address
+            </h3>
+            <address className="mt-4 not-italic space-y-2 text-sm text-brand-charcoal-muted leading-relaxed">
+              <p className="font-semibold text-brand-charcoal">Inventis Pharma (Pvt) Ltd</p>
+              <p>No. 11/8, Kawdana Road,</p>
+              <p>Dehiwala, Sri Lanka.</p>
+            </address>
+            <div className="mt-6 flex flex-wrap gap-x-4 gap-y-2">
+              <a
+                href="https://facebook.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-brand-charcoal-muted hover:text-brand-orange transition-colors"
+                aria-label="Inventis Pharma on Facebook"
+              >
+                Facebook
+              </a>
+              <a
+                href="https://twitter.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-brand-charcoal-muted hover:text-brand-orange transition-colors"
+                aria-label="Inventis Pharma on Twitter"
+              >
+                Twitter
+              </a>
+              <a
+                href="https://instagram.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-brand-charcoal-muted hover:text-brand-orange transition-colors"
+                aria-label="Inventis Pharma on Instagram"
+              >
+                Instagram
+              </a>
             </div>
           </div>
-          
+
         </div>
-        
-        <div className="mt-12 border-t border-brand-orange/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="flex flex-col md:flex-row items-center gap-4 text-center md:text-left">
+
+        <div className="mt-12 border-t border-brand-orange/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 text-center sm:text-left">
             <p className="text-xs text-brand-charcoal-muted">
               &copy; {new Date().getFullYear()} Inventis Pharma Pvt Ltd. All rights reserved.
             </p>
-            <div className="hidden md:block h-4 w-[1px] bg-brand-orange/20" />
+            <div className="hidden sm:block h-4 w-[1px] bg-brand-orange/20" />
             <a
               href="https://www.arcai.agency"
               target="_blank"
               rel="noopener"
-              title="ARC AI - Custom AI Solutions & Software Agency"
-              className="flex flex-wrap items-center gap-2 text-xs text-brand-charcoal-muted hover:text-brand-orange transition-colors group select-none pointer-events-auto"
+              title="ARC AI — AI & Software Development Agency"
+              className="group inline-flex items-center gap-2 text-xs text-brand-charcoal-muted hover:text-brand-orange transition-colors"
             >
-              <span>Built & Designed by</span>
-              <span className="relative flex items-center h-4.5 w-14 transition-all duration-300 opacity-80 group-hover:opacity-100 group-hover:scale-105">
+              <span>Built &amp; Designed by</span>
+              <span className="relative flex items-center h-5 w-16 opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300">
                 <Image
-                  src="/logo-black.png"
-                  alt="ARC AI - Leading AI & Software Solutions Agency"
+                  src="/logo-black.webp"
+                  alt="ARC AI — AI Agency & Software Development Company"
                   fill
-                  sizes="56px"
+                  sizes="64px"
                   className="object-contain"
-                  priority
+                  loading="lazy"
                 />
               </span>
-              <span className="font-bold text-brand-charcoal group-hover:text-brand-orange transition-colors">ARC AI</span>
-              <span className="hidden sm:inline text-brand-charcoal-muted/70">- Premium AI Agency</span>
             </a>
           </div>
-          <div className="flex gap-6 text-xs text-brand-charcoal-muted">
-            <span className="hover:text-brand-orange cursor-pointer transition-colors">Regulatory Compliance</span>
-            <span className="hover:text-brand-orange cursor-pointer transition-colors">ITI Certifications</span>
-            <span className="hover:text-brand-orange cursor-pointer transition-colors">SLS Quality Assurance</span>
+          <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-xs text-brand-charcoal-muted">
+            <span className="hover:text-brand-orange transition-colors">Regulatory Compliance</span>
+            <span className="hover:text-brand-orange transition-colors">ITI Certifications</span>
+            <span className="hover:text-brand-orange transition-colors">SLS Quality Assurance</span>
           </div>
         </div>
       </div>

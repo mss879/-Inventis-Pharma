@@ -4,6 +4,11 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 const products = [
   // Dialysis Consumables
@@ -244,7 +249,15 @@ export default function ProductsClient() {
   const [selectedCategory, setSelectedCategory] = useState("all");
 
   useEffect(() => {
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const ctx = gsap.context(() => {
+      if (reduce) {
+        gsap.set(
+          ".hero-reveal, .featured-image, .featured-content > *, .catalog-header, .filter-hub",
+          { opacity: 1, x: 0, y: 0, scale: 1, clipPath: "none" }
+        );
+        return;
+      }
       // Hero elements reveal on page load
       gsap.fromTo(
         ".hero-reveal",
@@ -304,21 +317,24 @@ export default function ProductsClient() {
   // Cascading stagger animation triggered every time filter search state updates
   useEffect(() => {
     const cards = containerRef.current?.querySelectorAll(".product-card");
-    if (cards && cards.length > 0) {
-      gsap.fromTo(
-        cards,
-        { opacity: 0, scale: 0.94, y: 20 },
-        {
-          opacity: 1,
-          scale: 1,
-          y: 0,
-          duration: 0.5,
-          ease: "power2.out",
-          stagger: 0.04,
-          overwrite: "auto"
-        }
-      );
+    if (!cards || cards.length === 0) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      gsap.set(cards, { opacity: 1, scale: 1, y: 0 });
+      return;
     }
+    gsap.fromTo(
+      cards,
+      { opacity: 0, scale: 0.94, y: 20 },
+      {
+        opacity: 1,
+        scale: 1,
+        y: 0,
+        duration: 0.5,
+        ease: "power2.out",
+        stagger: 0.04,
+        overwrite: "auto",
+      }
+    );
   }, [selectedCategory, searchQuery]);
 
   const categories = [
@@ -365,11 +381,12 @@ export default function ProductsClient() {
             {/* Image Container */}
             <div className="lg:col-span-5 relative h-[450px] rounded-2xl overflow-hidden shadow-xl border border-brand-orange/15 featured-image">
               <Image
-                src="/sterigen_product.png"
-                alt="Sterigen Sanitizer Display Bottle"
+                src="/sterigen_product.webp"
+                alt="Sterigen clinical-grade hand sanitizer bottle"
                 fill
+                sizes="(max-width: 1024px) 100vw, 40vw"
                 className="object-cover"
-                priority
+                preload
               />
             </div>
             
