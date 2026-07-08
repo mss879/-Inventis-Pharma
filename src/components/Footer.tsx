@@ -14,25 +14,15 @@ export default function Footer() {
 
           {/* Brand / Column 1 */}
           <div className="space-y-5 sm:col-span-2 lg:col-span-1">
-            <Link href="/" className="flex items-center gap-2 group w-fit">
-              <div className="h-9 w-9 rounded-xl overflow-hidden bg-white p-1.5 flex items-center justify-center shadow-md shadow-brand-orange/20 group-hover:scale-105 transition-transform duration-300">
-                <Image
-                  src="/inventis_logo.webp"
-                  alt="Inventis Pharma logo"
-                  width={24}
-                  height={24}
-                  loading="lazy"
-                  className="object-contain"
-                />
-              </div>
-              <div className="flex flex-col">
-                <span className="text-base font-bold tracking-tight text-brand-charcoal group-hover:text-brand-orange transition-colors duration-300">
-                  Inventis Pharma
-                </span>
-                <span className="text-[9px] text-brand-charcoal-muted tracking-widest uppercase font-semibold">
-                  Pvt Ltd
-                </span>
-              </div>
+            <Link href="/" className="group block w-fit">
+              <Image
+                src="/logo-1.png"
+                alt="Inventis Pharma"
+                width={2088}
+                height={946}
+                loading="lazy"
+                className="h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+              />
             </Link>
             <p className="text-sm text-brand-charcoal-muted max-w-xs leading-relaxed">
               Empowering healthcare and wellness in Sri Lanka with smart, innovative, and reliable biomedical solutions.

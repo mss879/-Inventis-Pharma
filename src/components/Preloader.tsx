@@ -128,24 +128,14 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
       </noscript>
 
       <div className="flex flex-col items-center gap-5">
-        <div className="h-20 w-20 rounded-2xl bg-white p-3 flex items-center justify-center shadow-lg shadow-brand-orange/20 animate-pulse">
-          <NextImage
-            src="/inventis_logo.webp"
-            alt="Inventis Pharma"
-            width={56}
-            height={56}
-            className="object-contain"
-            preload
-          />
-        </div>
-        <div className="flex flex-col items-center">
-          <span className="text-xl font-bold tracking-tight text-white">
-            Inventis Pharma
-          </span>
-          <span className="text-[10px] tracking-[0.3em] uppercase font-semibold text-white/50">
-            Pvt Ltd
-          </span>
-        </div>
+        <NextImage
+          src="/logo-1.png"
+          alt="Inventis Pharma"
+          width={2088}
+          height={946}
+          preload
+          className="h-16 w-auto object-contain animate-pulse"
+        />
       </div>
 
       <div className="h-[3px] w-48 rounded-full bg-white/15 overflow-hidden">

@@ -168,41 +168,15 @@ export default function Header() {
       >
         <div className="mx-auto max-w-[1500px] px-6 sm:px-10 md:px-14 lg:px-16 xl:px-20 h-20 flex items-center justify-between">
           {/* Logo */}
-          <Link href="/" onClick={() => setIsOpen(false)} className="flex items-center gap-2 group">
-            <div className="h-10 w-10 rounded-xl overflow-hidden bg-white p-1.5 flex items-center justify-center shadow-md shadow-brand-orange/20 group-hover:scale-105 transition-transform duration-300">
-              <Image
-                src="/inventis_logo.webp"
-                alt="Inventis Pharma logo"
-                width={28}
-                height={28}
-                preload
-                className="object-contain"
-              />
-            </div>
-            <div className="flex flex-col">
-              <span
-                className={`text-lg font-bold tracking-tight transition-colors duration-300 ${
-                  isOpen
-                    ? "text-white group-hover:text-brand-orange"
-                    : isScrolled
-                    ? "text-brand-charcoal group-hover:text-brand-orange"
-                    : "text-white group-hover:text-brand-orange"
-                }`}
-              >
-                Inventis Pharma
-              </span>
-              <span
-                className={`text-[10px] tracking-widest uppercase font-semibold transition-colors duration-300 ${
-                  isOpen
-                    ? "text-white/60"
-                    : isScrolled
-                    ? "text-brand-charcoal-muted"
-                    : "text-white/60"
-                }`}
-              >
-                Pvt Ltd
-              </span>
-            </div>
+          <Link href="/" onClick={() => setIsOpen(false)} className="flex items-center group">
+            <Image
+              src="/logo-1.png"
+              alt="Inventis Pharma"
+              width={2088}
+              height={946}
+              preload
+              className="h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+            />
           </Link>
 
           {/* Menu Button with scroll-reactive text color */}

@@ -28,7 +28,7 @@ export default function OpengraphImage() {
             width: 520,
             height: 520,
             borderRadius: 520,
-            background: "#ff6600",
+            background: "#c19530",
             opacity: 0.18,
             display: "flex",
           }}
@@ -41,7 +41,7 @@ export default function OpengraphImage() {
               width: 108,
               height: 108,
               borderRadius: 28,
-              background: "#ff6600",
+              background: "#c19530",
               display: "flex",
               position: "relative",
             }}
@@ -53,7 +53,7 @@ export default function OpengraphImage() {
             <div style={{ fontSize: 44, fontWeight: 800, color: "#ffffff", letterSpacing: -1 }}>
               Inventis Pharma
             </div>
-            <div style={{ fontSize: 22, color: "#ff6600", fontWeight: 700, letterSpacing: 4, textTransform: "uppercase" }}>
+            <div style={{ fontSize: 22, color: "#c19530", fontWeight: 700, letterSpacing: 4, textTransform: "uppercase" }}>
               Pvt Ltd
             </div>
           </div>
@@ -71,7 +71,7 @@ export default function OpengraphImage() {
 
         {/* Footer */}
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <div style={{ fontSize: 26, color: "#ff6600", fontWeight: 700 }}>inventispharma.org</div>
+          <div style={{ fontSize: 26, color: "#c19530", fontWeight: 700 }}>inventispharma.org</div>
           <div style={{ fontSize: 22, color: "#71717a" }}>NMRA · ITI · SLS Certified Sourcing</div>
         </div>
       </div>

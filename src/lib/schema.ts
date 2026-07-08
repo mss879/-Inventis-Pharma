@@ -39,9 +39,9 @@ export function organizationSchema() {
     url: SITE_URL,
     logo: {
       "@type": "ImageObject",
-      url: absoluteUrl("/inventis_logo.png"),
-      width: 512,
-      height: 512,
+      url: absoluteUrl("/logo-1.png"),
+      width: 2481,
+      height: 3508,
     },
     image: absoluteUrl("/hero_poster.webp"),
     description:
